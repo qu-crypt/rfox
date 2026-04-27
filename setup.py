@@ -28,6 +28,9 @@ setuptools.setup(
     },
     scripts                       = ['rfox'],
     install_requires              = requirements,
+    extras_require                = {
+        'specan': ['PySide6>=6.4'],
+    },
     classifiers                   = [
         'Development Status :: 4 - Beta',
         'Intended Audience :: Information Technology',

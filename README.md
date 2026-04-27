@@ -1,6 +1,6 @@
 # rfox
 
-> Unified [rfcat](https://github.com/atlas0fd00m/rfcat) helper for sub-GHz RF
+> Unified [rfcat-py3](https://github.com/qu-crypt/rfcat) helper for sub-GHz RF
 > work. One CLI, one interactive menu, one capture format. Built on top of
 > rfcat / rflib so it works with any YARDStickOne, RfCat-compatible
 > CC1111 dongle, or DonsDongle.
@@ -101,31 +101,32 @@ automatically.
 
 ## Installation
 
-rfox is a standalone tool that depends on [rfcat](https://github.com/atlas0fd00m/rfcat) for the underlying `rflib` library.
+rfox is a standalone tool that depends on [rfcat-py3](https://github.com/qu-crypt/rfcat) for the underlying `rflib` library.
 
 ```bash
-# 1. install rfcat (provides rflib)
-pip install rfcat
-
-# 2. clone and install rfox
-git clone https://github.com/qu-crypt/rfox.git
-cd rfox
-python3 -m venv .venv && source .venv/bin/activate
-pip install rfcat          # runtime dependency
-pip install -e .
+pip install rfox
 ```
 
 Optional dependencies:
 
 ```bash
-pip install -e '.[specan]'      # enables `rfox specan` (PySide6)
+pip install 'rfox[specan]'      # enables `rfox specan` (PySide6)
+```
+
+For development:
+
+```bash
+git clone https://github.com/qu-crypt/rfox.git
+cd rfox
+python3 -m venv .venv && source .venv/bin/activate
+pip install -e .
 ```
 
 System libraries:
 
 - **libusb-1.0** (Linux: `apt install libusb-1.0-0`, macOS: `brew install
   libusb`, Windows: see the rfcat README)
-- non-root USB access on Linux requires the udev rules from the rfcat repo's `etc/udev/`
+- non-root USB access on Linux requires the udev rules from the [rfcat-py3](https://github.com/qu-crypt/rfcat) repo's `etc/udev/`
 
 Verify:
 
@@ -352,15 +353,15 @@ rfox's own source — the entry script, the `rflib/rfox/` package,
 and `tests/test_rfox.py` — is released under the **MIT License**. See
 [`LICENSE`](LICENSE).
 
-It builds on top of [rfcat](https://github.com/atlas0fd00m/rfcat),
-which is distributed under its own BSD-style license.
+It builds on top of [rfcat-py3](https://github.com/qu-crypt/rfcat),
+which is distributed under the MIT License.
 
 ---
 
 ## Acknowledgements
 
-- [@atlas0fd00m](https://github.com/atlas0fd00m) and the rfcat / rflib
-  contributors for the underlying library and dongle firmware.
+- [@atlas0fd00m](https://github.com/atlas0fd00m) for the original rfcat and rflib.
+- [@qu-crypt](https://github.com/qu-crypt) for the Python 3 port ([rfcat-py3](https://github.com/qu-crypt/rfcat)) and dongle firmware.
 - [@AndrewMohawk](https://github.com/AndrewMohawk) — the original
   RfCatHelpers project that mapped out the most useful day-to-day
   recipes and motivated this tool.
