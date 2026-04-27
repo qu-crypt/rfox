@@ -24,7 +24,7 @@ test it.
 You are responsible for understanding and complying with the law in your
 country. As a non-exhaustive starting point:
 
-- **United States** — 47 U.S.C. § 333 prohibits "wilful or malicious
+- **United States** — 47 U.S.C. § 333 prohibits "wilful or malicious  
   interference" with any radio communication. The FCC enforces this and has
   fined private individuals six-figure amounts for jamming. The Computer
   Fraud and Abuse Act (CFAA) covers unauthorised access to electronic
@@ -125,7 +125,7 @@ pip install -e .
 System libraries:
 
 - **libusb-1.0** (Linux: `apt install libusb-1.0-0`, macOS: `brew install
-  libusb`, Windows: see the rfcat README)
+libusb`, Windows: see the rfcat README)
 - non-root USB access on Linux requires the udev rules from the [rfcat-py3](https://github.com/qu-crypt/rfcat) repo's `etc/udev/`
 
 Verify:
@@ -172,30 +172,30 @@ strings:
 
 ## Command reference
 
-| group | command | what it does | needs hw |
-|---|---|---|:---:|
-| **dongle** | `devices` | list connected RfCat dongles | ✓ |
-|            | `specan` | open the PySide6 spectrum analyser | ✓ |
-| **RX**     | `scan` | RX loop, hex-print frames, optional pcap log | ✓ |
-|            | `sweep` | RSSI sweep across `--start..--stop`, optional CSV | ✓ |
-|            | `logger` | headless RX → append every frame to a pcap | ✓ |
-| **TX**     | `transmit` | binary string → OOK (raw or PWM-encoded) | ✓ |
-|            | `tx-hex` | raw bytes given as hex on the CLI | ✓ |
-|            | `jam` | one frequency for N seconds ⚠️ | ✓ |
-|            | `scanjam` | two dongles: scan + reactive-jam ⚠️ | ✓✓ |
-|            | `brute` | iterate a key space and transmit each value ⚠️ | ✓ |
-|            | `fuzz` | bit/byte-mutate a seed frame, retransmit ⚠️ | ✓ |
-| **capture/replay** | `replay capture` | record N frames to a pcap | ✓ |
-|                    | `replay replay` | replay a pcap | ✓ |
-|                    | `rolljam` | jam → capture 1 → unjam → capture 2 → replay 1 ⚠️ | ✓✓ |
-| **analysis** | `decode` | manchester/diff-manchester/PWM/raw decoders | |
-|              | `find-sync` | candidate sync words in a capture | |
-|              | `find-repeats` | repeating bit patterns | |
-|              | `crc` | try CRC-8/CRC-16 polynomials over capture tails | |
-|              | `diff` | bit-by-bit diff (find rolling-counter fields) | |
-|              | `decode-wav` | OOK decoder for WAV recordings | |
-| **workflow** | `profile {save,show,list,delete}` | named radio configs | |
-|              | `preset {list,show}` | built-in protocol presets | |
+| group              | command                           | what it does                                      | needs hw |
+| ------------------ | --------------------------------- | ------------------------------------------------- | :------: |
+| **dongle**         | `devices`                         | list connected RfCat dongles                      |    ✓     |
+|                    | `specan`                          | open the PySide6 spectrum analyser                |    ✓     |
+| **RX**             | `scan`                            | RX loop, hex-print frames, optional pcap log      |    ✓     |
+|                    | `sweep`                           | RSSI sweep across `--start..--stop`, optional CSV |    ✓     |
+|                    | `logger`                          | headless RX → append every frame to a pcap        |    ✓     |
+| **TX**             | `transmit`                        | binary string → OOK (raw or PWM-encoded)          |    ✓     |
+|                    | `tx-hex`                          | raw bytes given as hex on the CLI                 |    ✓     |
+|                    | `jam`                             | one frequency for N seconds ⚠️                    |    ✓     |
+|                    | `scanjam`                         | two dongles: scan + reactive-jam ⚠️               |    ✓✓    |
+|                    | `brute`                           | iterate a key space and transmit each value ⚠️    |    ✓     |
+|                    | `fuzz`                            | bit/byte-mutate a seed frame, retransmit ⚠️       |    ✓     |
+| **capture/replay** | `replay capture`                  | record N frames to a pcap                         |    ✓     |
+|                    | `replay replay`                   | replay a pcap                                     |    ✓     |
+|                    | `rolljam`                         | jam → capture 1 → unjam → capture 2 → replay 1 ⚠️ |    ✓✓    |
+| **analysis**       | `decode`                          | manchester/diff-manchester/PWM/raw decoders       |          |
+|                    | `find-sync`                       | candidate sync words in a capture                 |          |
+|                    | `find-repeats`                    | repeating bit patterns                            |          |
+|                    | `crc`                             | try CRC-8/CRC-16 polynomials over capture tails   |          |
+|                    | `diff`                            | bit-by-bit diff (find rolling-counter fields)     |          |
+|                    | `decode-wav`                      | OOK decoder for WAV recordings                    |          |
+| **workflow**       | `profile {save,show,list,delete}` | named radio configs                               |          |
+|                    | `preset {list,show}`              | built-in protocol presets                         |          |
 
 Commands marked ⚠️ are the ones you should **only** use on equipment you
 own or are formally authorised to test. See the disclaimer above.
@@ -269,15 +269,15 @@ works.
 
 Built-in presets:
 
-| name | freq | drate | mod | typical use |
-|---|---|---|---|---|
-| `ev1527` | 433.92 MHz | 2400 | OOK | generic 433 MHz remotes |
-| `pt2262` | 433.92 MHz | 1200 | OOK | older garage / gate openers |
-| `keeloq` | 433.92 MHz | 2000 | OOK | rolling-code keyfobs |
-| `keyfob315` | 315 MHz | 2400 | OOK | US automotive key fobs |
-| `srd868` | 868.35 MHz | 4800 | 2FSK | EU short-range devices |
-| `ism915` | 915 MHz | 38 400 | 2FSK | US ISM band |
-| `tpms433` | 433.92 MHz | 19 200 | 2FSK | tyre-pressure sensors |
+| name        | freq       | drate  | mod  | typical use                 |
+| ----------- | ---------- | ------ | ---- | --------------------------- |
+| `ev1527`    | 433.92 MHz | 2400   | OOK  | generic 433 MHz remotes     |
+| `pt2262`    | 433.92 MHz | 1200   | OOK  | older garage / gate openers |
+| `keeloq`    | 433.92 MHz | 2000   | OOK  | rolling-code keyfobs        |
+| `keyfob315` | 315 MHz    | 2400   | OOK  | US automotive key fobs      |
+| `srd868`    | 868.35 MHz | 4800   | 2FSK | EU short-range devices      |
+| `ism915`    | 915 MHz    | 38 400 | 2FSK | US ISM band                 |
+| `tpms433`   | 433.92 MHz | 19 200 | 2FSK | tyre-pressure sensors       |
 
 ---
 
