@@ -1,8 +1,8 @@
 # rfox
 
 > Unified [rfcat-py3](https://github.com/qu-crypt/rfcat) helper for sub-GHz RF
-> work. One CLI, one interactive menu, one capture format. Built on top of
-> rfcat / rflib so it works with any YARDStickOne, RfCat-compatible
+> capture and analysis. One CLI, one interactive menu, one capture format. Built
+> on top of rfcat / rflib so it works with any YARDStickOne, RfCat-compatible
 > CC1111 dongle, or DonsDongle.
 
 ```bash
@@ -12,70 +12,12 @@
 
 ---
 
-## ⚠️ Legal & ethics — read this first
-
-**rfox is a dual-use security research tool.** Several of its commands —
-notably `jam`, `scanjam`, `rolljam`, `brute`, and `fuzz` — actively transmit
-RF energy and can interfere with, disable, or attempt to gain unauthorised
-access to wireless systems. **In most jurisdictions this is illegal** unless
-you own the target equipment or have explicit, written authorisation to
-test it.
-
-You are responsible for understanding and complying with the law in your
-country. As a non-exhaustive starting point:
-
-- **United States** — 47 U.S.C. § 333 prohibits "wilful or malicious  
-  interference" with any radio communication. The FCC enforces this and has
-  fined private individuals six-figure amounts for jamming. The Computer
-  Fraud and Abuse Act (CFAA) covers unauthorised access to electronic
-  systems.
-- **United Kingdom** — the Wireless Telegraphy Act 2006 makes unlicensed
-  intentional interference an offence; the Computer Misuse Act 1990 covers
-  unauthorised access.
-- **European Union** — RED (2014/53/EU) and national transposition acts
-  regulate spectrum use; most member states have similar criminal
-  prohibitions on jamming.
-- **Australia, Canada, Japan, …** — similar regimes exist almost everywhere.
-
-**Use rfox only for:**
-
-- security research on equipment **you own**;
-- formally authorised penetration testing engagements (with a written
-  scope-of-work / authorisation letter from the asset owner);
-- CTF challenges and educational exercises in **shielded enclosures** (RF
-  isolation chamber, Faraday cage / bag) where transmissions cannot leak
-  into licensed bands;
-- compliance and interoperability testing in a controlled lab environment.
-
-**Do not use rfox to:**
-
-- attack, disrupt, or interfere with infrastructure, vehicles, premises,
-  devices, or services that are not yours, or for which you do not hold
-  written authorisation;
-- jam, intercept, or replay communications belonging to other people;
-- bypass access controls (gates, garage doors, vehicles, alarms, locks) on
-  property you do not own;
-- target safety-critical, life-safety, public-safety, or aviation
-  systems under any circumstances.
-
-By using this software, you acknowledge that **you alone are responsible**
-for ensuring your use is lawful and authorised. The authors and
-contributors provide rfox **without warranty of any kind** (see
-[`LICENSE`](LICENSE)) and are **not liable** for any direct
-or indirect harm, legal action, regulatory penalty, equipment damage, or
-data loss arising from its use or misuse.
-
-If any of this is unclear, **stop and consult a qualified lawyer in your
-jurisdiction before using the offensive commands.**
-
----
-
 ## Why rfox
 
 rfcat ships a powerful Python library (`rflib`) and an interactive shell,
 but day-to-day RF work tends to be the same handful of recipes — capture a
-key fob, replay it, sweep a band, decode some Manchester, find the rolling
-counter — repeated with slightly different parameters. The community
+signal, sweep a band, decode some Manchester, identify a CRC, find a sync
+word — repeated with slightly different parameters. The community
 [RfCatHelpers](https://github.com/AndrewMohawk/RfCatHelpers) project showed
 how useful those recipes are as standalone scripts, but each one
 re-implements the same dongle init, defines its own incompatible CLI, and
@@ -181,13 +123,10 @@ strings:
 |                    | `logger`                          | headless RX → append every frame to a pcap        |    ✓     |
 | **TX**             | `transmit`                        | binary string → OOK (raw or PWM-encoded)          |    ✓     |
 |                    | `tx-hex`                          | raw bytes given as hex on the CLI                 |    ✓     |
-|                    | `jam`                             | one frequency for N seconds ⚠️                    |    ✓     |
-|                    | `scanjam`                         | two dongles: scan + reactive-jam ⚠️               |    ✓✓    |
-|                    | `brute`                           | iterate a key space and transmit each value ⚠️    |    ✓     |
-|                    | `fuzz`                            | bit/byte-mutate a seed frame, retransmit ⚠️       |    ✓     |
+|                    | `brute`                           | iterate a key space and transmit each value       |    ✓     |
+|                    | `fuzz`                            | bit/byte-mutate a seed frame, retransmit          |    ✓     |
 | **capture/replay** | `replay capture`                  | record N frames to a pcap                         |    ✓     |
 |                    | `replay replay`                   | replay a pcap                                     |    ✓     |
-|                    | `rolljam`                         | jam → capture 1 → unjam → capture 2 → replay 1 ⚠️ |    ✓✓    |
 | **analysis**       | `decode`                          | manchester/diff-manchester/PWM/raw decoders       |          |
 |                    | `find-sync`                       | candidate sync words in a capture                 |          |
 |                    | `find-repeats`                    | repeating bit patterns                            |          |
@@ -196,11 +135,6 @@ strings:
 |                    | `decode-wav`                      | OOK decoder for WAV recordings                    |          |
 | **workflow**       | `profile {save,show,list,delete}` | named radio configs                               |          |
 |                    | `preset {list,show}`              | built-in protocol presets                         |          |
-
-Commands marked ⚠️ are the ones you should **only** use on equipment you
-own or are formally authorised to test. See the disclaimer above.
-
-`✓✓` means the command requires two dongles.
 
 Each command also has full `--help`:
 
@@ -339,8 +273,8 @@ Pull requests welcome. Please:
    without hardware (use `FakeRfCat` for TX commands).
 3. Match the existing argparse flag style (`-f`/`--freq` is Hz,
    `-r`/`--drate` is bps, etc.).
-4. Don't add commands that are exclusively useful for unauthorised
-   attacks.
+4. Don't add commands whose primary purpose is signal interference or
+   disruption.
 
 By contributing, you agree your contribution is licensed under the MIT
 License (see [`LICENSE`](LICENSE)).
