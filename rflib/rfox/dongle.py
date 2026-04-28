@@ -27,6 +27,23 @@ def _sync_const(name):
     }[name.upper()]
 
 
+def _validate_freq(freq_hz):
+    """Raise ValueError if freq_hz falls outside all CC1111 supported sub-bands."""
+    import rflib.const as _c
+    bands = [
+        (_c.FREQ_MIN_300, _c.FREQ_MAX_300, "300-band (281-361 MHz)"),
+        (_c.FREQ_MIN_400, _c.FREQ_MAX_400, "400-band (378-481 MHz)"),
+        (_c.FREQ_MIN_900, _c.FREQ_MAX_900, "900-band (749-962 MHz)"),
+    ]
+    for lo, hi, _ in bands:
+        if lo <= freq_hz <= hi:
+            return
+    ranges = ", ".join(f"{lo/1e6:.0f}-{hi/1e6:.0f} MHz" for lo, hi, _ in bands)
+    raise ValueError(
+        f"frequency {freq_hz/1e6:.4f} MHz is outside CC1111 supported bands: {ranges}"
+    )
+
+
 def open_dongle(idx=0, debug=False, fake=False):
     """Return an RfCat-compatible object. fake=True skips libusb."""
     if fake:
@@ -38,6 +55,7 @@ def open_dongle(idx=0, debug=False, fake=False):
 
 def apply_config(d, cfg: RFConfig):
     """Push every field of cfg onto the dongle."""
+    _validate_freq(cfg.freq)
     d.setFreq(cfg.freq)
     d.setMdmModulation(_mod_const(cfg.modulation))
     d.setMdmDRate(cfg.drate)
